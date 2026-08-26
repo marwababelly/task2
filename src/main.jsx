@@ -9,7 +9,7 @@ ReactDOM.createRoot(
   document.getElementById("root")
 ).render(
   <React.StrictMode>
-    <BrowserRouter>
+    <BrowserRouter basename="/task2">
       <App />
     </BrowserRouter>
   </React.StrictMode>
