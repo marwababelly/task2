@@ -6,6 +6,7 @@ function ProductCard({ product }) {
     <div className={styles.card}>
       <Link
         to={`/products/${product.id}`}
+        state={{ product }}
         className={styles.imageContainer}
       >
         <img
@@ -30,6 +31,7 @@ function ProductCard({ product }) {
 
         <Link
           to={`/products/${product.id}`}
+          state={{ product }}
           className={styles.button}
         >
           View Details

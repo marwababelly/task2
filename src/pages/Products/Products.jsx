@@ -1,10 +1,12 @@
 import { useState } from "react";
+
 import products from "../../data/Products";
 import ProductCard from "../../components/ProductCard/ProductCard";
 import CategoryFilter from "../../components/CategoryFilter/CategoryFilter";
+
 import styles from "./Products.module.css";
 
-function Products() {
+function Products({ productFromDetails }) {
   const [selectedCategory, setSelectedCategory] =
     useState("All");
 
@@ -30,6 +32,13 @@ function Products() {
           Browse our collection and find the product you need.
         </p>
       </div>
+
+      {/* الرسالة القادمة من App */}
+      {productFromDetails && (
+        <div className={styles.message}>
+          You selected {productFromDetails.name} from the product details page!
+        </div>
+      )}
 
       <CategoryFilter
         categories={categories}

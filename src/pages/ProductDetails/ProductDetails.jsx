@@ -1,13 +1,22 @@
-import { Link, useParams } from "react-router-dom";
-import products from "../../data/Products";
+import {
+  Link,
+  useParams,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
+
 import styles from "./ProductDetails.module.css";
 
-function ProductDetails() {
+function ProductDetails({ onSendProduct }) {
+  const navigate = useNavigate();
+
+  // نأخذ id من URL
   const { id } = useParams();
 
-  const selectedProduct = products.find(
-    (product) => product.id === Number(id)
-  );
+  // نأخذ Full Product Data
+  const location = useLocation();
+
+  const selectedProduct = location.state?.product;
 
   if (!selectedProduct) {
     return (
@@ -23,6 +32,14 @@ function ProductDetails() {
       </div>
     );
   }
+
+  const handleSendToParent = () => {
+    // Child → Parent
+    onSendProduct(selectedProduct);
+
+    // العودة إلى صفحة المنتجات
+    navigate("/products");
+  };
 
   return (
     <div className={styles.container}>
@@ -56,8 +73,13 @@ function ProductDetails() {
             {selectedProduct.description}
           </p>
 
-          <button className={styles.addButton}>
-            Add to Cart
+          <p>Product ID: {id}</p>
+
+          <button
+            className={styles.addButton}
+            onClick={handleSendToParent}
+          >
+            Send Product to Parent
           </button>
         </div>
       </div>
