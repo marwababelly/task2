@@ -5,18 +5,29 @@ import {
   useNavigate,
 } from "react-router-dom";
 
+import products from "../../data/Products";
+
+import { useCart } from "../../Context/CartContext";
+
 import styles from "./ProductDetails.module.css";
 
 function ProductDetails({ onSendProduct }) {
-  const navigate = useNavigate();
-
-  // نأخذ id من URL
   const { id } = useParams();
 
-  // نأخذ Full Product Data
   const location = useLocation();
 
-  const selectedProduct = location.state?.product;
+  const navigate = useNavigate();
+
+  const { addToCart } = useCart();
+
+  /*
+    Product data comes from React Router state
+  */
+  const selectedProduct =
+    location.state?.product ||
+    products.find(
+      (product) => product.id === Number(id)
+    );
 
   if (!selectedProduct) {
     return (
@@ -37,8 +48,11 @@ function ProductDetails({ onSendProduct }) {
     // Child → Parent
     onSendProduct(selectedProduct);
 
-    // العودة إلى صفحة المنتجات
     navigate("/products");
+  };
+
+  const handleAddToCart = () => {
+    addToCart(selectedProduct);
   };
 
   return (
@@ -73,11 +87,20 @@ function ProductDetails({ onSendProduct }) {
             {selectedProduct.description}
           </p>
 
-          <p>Product ID: {id}</p>
+          <p>
+            Product ID: {id}
+          </p>
 
           <button
-            className={styles.addButton}
+            onClick={handleAddToCart}
+            className={styles.cartButton}
+          >
+            Add to Cart
+          </button>
+
+          <button
             onClick={handleSendToParent}
+            className={styles.parentButton}
           >
             Send Product to Parent
           </button>

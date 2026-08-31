@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 import products from "../../data/Products";
+
 import ProductCard from "../../components/ProductCard/ProductCard";
 import CategoryFilter from "../../components/CategoryFilter/CategoryFilter";
 
@@ -12,7 +13,9 @@ function Products({ productFromDetails }) {
 
   const categories = [
     "All",
-    ...new Set(products.map((product) => product.category)),
+    ...new Set(
+      products.map((product) => product.category)
+    ),
   ];
 
   const filteredProducts =
@@ -33,10 +36,11 @@ function Products({ productFromDetails }) {
         </p>
       </div>
 
-      {/* الرسالة القادمة من App */}
       {productFromDetails && (
         <div className={styles.message}>
-          You selected {productFromDetails.name} from the product details page!
+          You selected{" "}
+          <strong>{productFromDetails.name}</strong>{" "}
+          from the product details page!
         </div>
       )}
 

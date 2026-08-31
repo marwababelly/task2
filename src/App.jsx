@@ -1,8 +1,14 @@
-import { useState, useEffect } from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import {
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 
 import Products from "./pages/Products/Products";
 import ProductDetails from "./pages/ProductDetails/ProductDetails";
+import Cart from "./pages/Cart/Cart";
+import Navbar from "./components/Navbar/Navbar";
 
 function App() {
   const [productFromDetails, setProductFromDetails] =
@@ -17,36 +23,55 @@ function App() {
 
     const timer = setTimeout(() => {
       setProductFromDetails(null);
-    }, 3000); // تختفي بعد 3 ثوانٍ
+    }, 3000);
 
     return () => clearTimeout(timer);
   }, [productFromDetails]);
 
   return (
-    <Routes>
-      <Route
-        path="/"
-        element={<Navigate to="/products" />}
-      />
+    <>
+      <Navbar />
 
-      <Route
-        path="/products"
-        element={
-          <Products
-            productFromDetails={productFromDetails}
-          />
-        }
-      />
+      <Routes>
+        {/* الصفحة الرئيسية */}
+        <Route
+          path="/"
+          element={<Navigate to="/products" replace />}
+        />
 
-      <Route
-        path="/products/:id"
-        element={
-          <ProductDetails
-            onSendProduct={handleProductFromDetails}
-          />
-        }
-      />
-    </Routes>
+        {/* صفحة المنتجات */}
+        <Route
+          path="/products"
+          element={
+            <Products
+              productFromDetails={productFromDetails}
+            />
+          }
+        />
+
+        {/* صفحة تفاصيل المنتج */}
+        <Route
+          path="/products/:id"
+          element={
+            <ProductDetails
+              onSendProduct={handleProductFromDetails}
+            />
+          }
+        />
+
+        {/* صفحة السلة */}
+        <Route
+          path="/cart"
+          element={<Cart />}
+        />
+
+        {/* أي رابط غير موجود */}
+        <Route
+          path="*"
+          element={<Navigate to="/products" replace />}
+        />
+      </Routes>
+    </>
   );
 }
 

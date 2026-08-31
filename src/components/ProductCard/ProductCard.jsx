@@ -1,7 +1,16 @@
 import { Link } from "react-router-dom";
+
+import { useCart } from "../../Context/CartContext";
+
 import styles from "./ProductCard.module.css";
 
 function ProductCard({ product }) {
+  const { addToCart } = useCart();
+
+  const handleAddToCart = () => {
+    addToCart(product);
+  };
+
   return (
     <div className={styles.card}>
       <Link
@@ -29,13 +38,22 @@ function ProductCard({ product }) {
           ${product.price}
         </p>
 
-        <Link
-          to={`/products/${product.id}`}
-          state={{ product }}
-          className={styles.button}
-        >
-          View Details
-        </Link>
+        <div className={styles.buttons}>
+          <Link
+            to={`/products/${product.id}`}
+            state={{ product }}
+            className={styles.button}
+          >
+            View Details
+          </Link>
+
+          <button
+            onClick={handleAddToCart}
+            className={styles.cartButton}
+          >
+            Add to Cart
+          </button>
+        </div>
       </div>
     </div>
   );
