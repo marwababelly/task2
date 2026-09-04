@@ -1,16 +1,23 @@
 import { Link } from "react-router-dom";
+import {
+  useSelector,
+  useDispatch,
+} from "react-redux";
 
-import { useCart } from "../../Context/CartContext";
+import {
+  increaseQuantity,
+  decreaseQuantity,
+  removeFromCart,
+} from "../../Redux/CartSlice";
 
 import styles from "./Cart.module.css";
 
 function Cart() {
-  const {
-    cart,
-    increaseQuantity,
-    decreaseQuantity,
-    removeFromCart,
-  } = useCart();
+  const cart = useSelector(
+    (state) => state.cart.cart
+  );
+
+  const dispatch = useDispatch();
 
   const totalPrice = cart.reduce(
     (total, item) =>
@@ -64,7 +71,9 @@ function Cart() {
             <div className={styles.quantity}>
               <button
                 onClick={() =>
-                  decreaseQuantity(item.id)
+                  dispatch(
+                    decreaseQuantity(item.id)
+                  )
                 }
               >
                 -
@@ -76,7 +85,9 @@ function Cart() {
 
               <button
                 onClick={() =>
-                  increaseQuantity(item.id)
+                  dispatch(
+                    increaseQuantity(item.id)
+                  )
                 }
               >
                 +
@@ -92,7 +103,9 @@ function Cart() {
 
             <button
               onClick={() =>
-                removeFromCart(item.id)
+                dispatch(
+                  removeFromCart(item.id)
+                )
               }
               className={styles.removeButton}
             >

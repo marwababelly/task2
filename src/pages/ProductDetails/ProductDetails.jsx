@@ -5,9 +5,13 @@ import {
   useNavigate,
 } from "react-router-dom";
 
+import { useDispatch } from "react-redux";
+
 import products from "../../data/Products";
 
-import { useCart } from "../../Context/CartContext";
+import {
+  addToCart,
+} from "../../Redux/CartSlice";
 
 import styles from "./ProductDetails.module.css";
 
@@ -18,11 +22,8 @@ function ProductDetails({ onSendProduct }) {
 
   const navigate = useNavigate();
 
-  const { addToCart } = useCart();
+  const dispatch = useDispatch();
 
-  /*
-    Product data comes from React Router state
-  */
   const selectedProduct =
     location.state?.product ||
     products.find(
@@ -45,14 +46,13 @@ function ProductDetails({ onSendProduct }) {
   }
 
   const handleSendToParent = () => {
-    // Child → Parent
     onSendProduct(selectedProduct);
 
     navigate("/products");
   };
 
   const handleAddToCart = () => {
-    addToCart(selectedProduct);
+    dispatch(addToCart(selectedProduct));
   };
 
   return (

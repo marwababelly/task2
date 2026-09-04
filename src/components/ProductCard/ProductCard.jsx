@@ -1,14 +1,17 @@
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
-import { useCart } from "../../Context/CartContext";
+import {
+  addToCart,
+} from "../../Redux/CartSlice";
 
 import styles from "./ProductCard.module.css";
 
 function ProductCard({ product }) {
-  const { addToCart } = useCart();
+  const dispatch = useDispatch();
 
   const handleAddToCart = () => {
-    addToCart(product);
+    dispatch(addToCart(product));
   };
 
   return (
